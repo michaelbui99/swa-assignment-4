@@ -4,14 +4,20 @@ import type { User } from '../models/user'
 
 type UserState = User | undefined
 
-export const userStore = defineStore('userStore', () => {
-  const userState = ref(undefined as UserState)
+export const useUserStore = defineStore('userStore', () => {
+  const currentUser = ref(undefined as UserState)
 
   function loginUser(user: User) {
-    userState.value = user
+    currentUser.value = user
   }
 
   function logoutUser() {
-    userState.value = undefined
+    currentUser.value = undefined
+  }
+
+  return {
+    currentUser,
+    loginUser,
+    logoutUser
   }
 })
