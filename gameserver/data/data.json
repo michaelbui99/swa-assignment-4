@@ -45,6 +45,30 @@
       "password": "TESTTEST",
       "id": 6,
       "admin": false
+    },
+    {
+      "username": "mytest123",
+      "password": "test123123",
+      "id": 7,
+      "admin": false
+    },
+    {
+      "username": "testtesttest",
+      "password": "test123123",
+      "id": 8,
+      "admin": false
+    },
+    {
+      "username": "testtesttesttest",
+      "password": "test123123",
+      "id": 9,
+      "admin": false
+    },
+    {
+      "username": "test123321",
+      "password": "test123123",
+      "id": 10,
+      "admin": false
     }
   ],
   "games": [
