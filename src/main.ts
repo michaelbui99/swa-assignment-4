@@ -1,14 +1,14 @@
 import './assets/main.css'
+import 'vue-final-modal/style.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { createVfm } from 'vue-final-modal'
 
 import App from './App.vue'
 import router from './router'
-import { createUser } from './api/user'
 
 const app = createApp(App)
-app.use(createPinia())
-app.use(router)
+const vfm = createVfm()
 
-app.mount('#app')
+app.use(createPinia()).use(router).use(vfm).mount('#app')
