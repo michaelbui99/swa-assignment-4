@@ -7,6 +7,7 @@ import {} from '@/api/user'
 import PageLayout from '@/components/PageLayout.vue'
 import UserCard from '@/components/UserCard.vue'
 import UserStats from '@/components/UserStats.vue'
+import GamesList from '@/components/GamesList.vue'
 
 const router = useRouter()
 
@@ -34,6 +35,7 @@ userStore.$subscribe((_, state) => {
           <button class="btn btn-primary edit-btn">Edit</button>
           <user-card :user="currentUser"></user-card>
           <user-stats :games="currentUser.games"></user-stats>
+          <games-list :games="currentUser.games"></games-list>
         </div>
       </div>
     </div>
