@@ -15,9 +15,22 @@ export const useUserStore = defineStore('userStore', () => {
     currentUser.value = undefined
   }
 
+  function updateProfile(displayName: string, profileImageUrl: string) {
+    if (!currentUser.value) {
+      return
+    }
+
+    currentUser.value = {
+      ...currentUser.value,
+      displayName,
+      profileImageUrl
+    }
+  }
+
   return {
     currentUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    updateProfile
   }
 })
