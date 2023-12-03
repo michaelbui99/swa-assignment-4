@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createUser } from '@/api/user'
+import { loginUser } from '@/api/user'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/app/features/userStore'
 import { ref, onMounted, computed } from 'vue'
@@ -11,13 +11,8 @@ const router = useRouter()
 
 const userNameInput = ref('')
 const passwordInput = ref('')
-
-const usernameIsInvalid = computed(() => {
-  return !userNameInput.value
-})
-const passwordIsInvalid = computed(() => {
-  return passwordInput.value.length < 8
-})
+const invalidCredentials = ref(false)
+const serverUnavailable = ref(false)
 
 const handleUsernameChange = (e: any) => {
   userNameInput.value = e.currentTarget?.value
@@ -27,28 +22,38 @@ const handlePasswordChange = (e: any) => {
   passwordInput.value = e.currentTarget?.value
 }
 
-const handleSignUp = async () => {
-  const newUser = await createUser(userNameInput.value, passwordInput.value)
-  userStore.currentUser = newUser
+const handleLogin = async () => {
+  try {
+    const user = await loginUser({ username: userNameInput.value, password: passwordInput.value })
+
+    if (!user) {
+      invalidCredentials.value = true
+      return
+    }
+
+    userStore.currentUser = user
+  } catch (err) {
+    serverUnavailable.value = true
+  }
 }
 
 onMounted(() => {
   if (currentUser) {
-    router.push('/login')
+    router.push('/')
   }
 })
 
 userStore.$subscribe((_, state) => {
   if (state.currentUser) {
-    router.push('/login')
+    router.push('/')
   }
 })
 </script>
 
 <template>
   <page-layout>
-    <div class="signup-form-container">
-      <div class="signup-layout">
+    <div class="login-form-container">
+      <div class="login-layout">
         <div class="form-group">
           <label for="usernameInput">Username</label>
           <input
@@ -58,9 +63,6 @@ userStore.$subscribe((_, state) => {
             id="usernameInput"
             placeholder="Enter username"
           />
-          <small v-if="usernameIsInvalid" class="form-text text-danger"
-            >Username cannot be empty!</small
-          >
         </div>
         <div class="form-group">
           <label for="passwordInput">Password</label>
@@ -71,18 +73,21 @@ userStore.$subscribe((_, state) => {
             id="passwordInput"
             placeholder="Password"
           />
-          <small v-if="passwordIsInvalid" class="form-text text-danger"
-            >Password must have a length of at least 8!</small
-          >
         </div>
-        <button @click="handleSignUp()" class="btn btn-primary signup-btn">Sign up</button>
+        <small v-if="invalidCredentials" class="form-text text-danger"
+          >Username or password is invalid</small
+        >
+        <small v-if="serverUnavailable" class="form-text text-danger"
+          >Unable to reach server...</small
+        >
+        <button @click="handleLogin()" class="btn btn-primary signup-btn">Login</button>
       </div>
     </div>
   </page-layout>
 </template>
 
 <style lang="scss">
-.signup-form-container {
+.login-form-container {
   height: calc(100vh - 4rem);
   width: 100%;
   display: flex;
@@ -91,7 +96,7 @@ userStore.$subscribe((_, state) => {
   align-items: center;
 }
 
-.signup-layout {
+.login-layout {
   display: flex;
   flex-direction: column;
   max-width: 300px;
