@@ -29,17 +29,13 @@ const handlePasswordChange = (e: any) => {
 
 const handleSignUp = async () => {
   const newUser = await createUser(userNameInput.value, passwordInput.value)
-  userStore.currentUser = newUser
+  if (newUser) {
+    router.push('/login')
+  }
 }
 
 onMounted(() => {
   if (currentUser) {
-    router.push('/login')
-  }
-})
-
-userStore.$subscribe((_, state) => {
-  if (state.currentUser) {
     router.push('/login')
   }
 })

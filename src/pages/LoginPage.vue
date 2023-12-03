@@ -31,7 +31,8 @@ const handleLogin = async () => {
       return
     }
 
-    userStore.currentUser = user
+    invalidCredentials.value = false
+    userStore.loginUser(user)
   } catch (err) {
     serverUnavailable.value = true
   }
