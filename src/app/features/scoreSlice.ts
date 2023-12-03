@@ -2,8 +2,12 @@ import { defineStore } from 'pinia'
 import type { Game } from '../models/game'
 import type { Score } from '../models/score'
 import type { User } from '../models/user'
+import { ref } from 'vue'
 
 export const useScoreStore = defineStore('score', () => {
+
+  const allScore = ref(undefined as unknown as {userScore: Score[], top10Score: Score[]})
+
   function getTop3ScoresForUser(userId: number, scores: Score[]): Score[] {
     const userScores = scores.filter((score) => score.userId === userId)
     userScores.sort((a, b) => b.score - a.score)
@@ -43,7 +47,11 @@ export const useScoreStore = defineStore('score', () => {
       userScore = []
     }
     userScore = getTop3ScoresForUser(logedInUser!.id, scoreList)
+    allScore.value = {userScore, top10Score}
     return { userScore, top10Score }
   }
-  return { gethighScores }
+  return { 
+    allScore,
+    gethighScores 
+  }
 })
