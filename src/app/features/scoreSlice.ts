@@ -6,7 +6,7 @@ import { ref } from 'vue'
 
 export const useScoreStore = defineStore('score', () => {
 
-  const allScore = ref(undefined as unknown as {userScore: Score[], top10Score: Score[]})
+  const allScore = ref({userScore: [] as Score[], top10Score: [] as Score[]})
 
   function getTop3ScoresForUser(userId: number, scores: Score[]): Score[] {
     const userScores = scores.filter((score) => score.userId === userId)
