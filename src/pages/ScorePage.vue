@@ -55,15 +55,15 @@ const { allScore } = storeToRefs(score);
                     </thead>
                     <tbody>
                         <tr v-for="score in allScore.top10Score">
-                            <td>{{ score.gameId }} </td>
-                            <td> </td>
-                            <td></td>
+                            <td>{{ score.userId }} </td>
+                            <td> {{ score.gameId }}</td>
+                            <td>{{ score.score }}</td>
                         </tr> 
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- <div>
+        <div>
             <h2>My top score</h2>
             <div>
                 <table>
@@ -74,15 +74,14 @@ const { allScore } = storeToRefs(score);
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(score, index) in getUserScore()" key="index">
-                            <td> </td>
-                            <td> </td>
-                            <td></td>
+                        <tr v-for="score in allScore.userScore">
+                            <td>{{ score.gameId }} </td>
+                            <td>{{ score.score }} </td>
                         </tr> 
                     </tbody>
                 </table>
             </div>
-        </div> -->
+        </div> 
     </div>
 </div>
 </template>
