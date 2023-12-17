@@ -1,8 +1,6 @@
 import type { Game } from '@/app/models/game'
 import type { User } from '@/app/models/user'
 
-const BASE_URL = 'http://localhost:9090'
-
 export async function updateUser(updatedUserState: User): Promise<User> {
   const baseUrl = 'http://localhost:9090'
   const endpoint = `${baseUrl}/users/${updatedUserState.id}?token=${updatedUserState.token}`
