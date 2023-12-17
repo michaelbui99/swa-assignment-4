@@ -10,7 +10,7 @@ export type Move = {
   to: Position
 }
 
-export const useUserStore = defineStore('userStore', () => {
+export const useGameStore = defineStore('gameStore', () => {
   const currentGame = ref(undefined as GameState)
   const MAX_MOVES_ALLOWED = 3
 
