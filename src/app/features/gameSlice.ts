@@ -49,10 +49,19 @@ export const useGameStore = defineStore('gameStore', () => {
     currentGame.value.completed = true
   }
 
+  function disposeGame() {
+    if (!currentGame.value) {
+      return
+    }
+
+    currentGame.value = undefined
+  }
+
   return {
     currentGame,
     startGame,
     makeMove,
-    endGame
+    endGame,
+    disposeGame
   }
 })

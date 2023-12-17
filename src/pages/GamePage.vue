@@ -4,12 +4,11 @@ import { useGameStore } from '@/app/features/gameSlice'
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { updateUser } from '@/api/user'
 import PageLayout from '@/components/PageLayout.vue'
-import UserCard from '@/components/UserCard.vue'
-import UserStats from '@/components/UserStats.vue'
-import GamesList from '@/components/GamesList.vue'
 import { games } from '@/api/score'
+import { createGame, updateGame } from '@/api/game'
+import type { User } from '@/app/models/user'
+import type { Game } from '@/app/models/game'
 
 const router = useRouter()
 
@@ -21,6 +20,10 @@ const { currentGame } = storeToRefs(gameStore)
 
 const inputDisabled = ref(false)
 const selectedCell = ref<{
+  row: number
+  col: number
+} | null>(null)
+const targetPiece = ref<{
   row: number
   col: number
 } | null>(null)
@@ -66,21 +69,90 @@ const isMoving = (targetPiece: any, selectedCell: any, rowIndex: number, cellInd
   return ''
 }
 
-userStore.$subscribe((_, state) => {
+userStore.$subscribe(async (_, state) => {
   if (!state.currentUser) {
     router.push('/login')
+  } else {
+    if (!currentGame.value) {
+      const newGame = await createGame(currentUser.value as User)
+      gameStore.startGame(newGame)
+    }
   }
 })
 
-onMounted(() => {
+gameStore.$subscribe((_, state) => {
+  if (state.currentGame && state.currentGame!.movesUsed >= 3) {
+    gameStore.endGame()
+    updateGame(state.currentGame as Game, currentUser.value as User)
+    gameStore.disposeGame()
+    router.push('/scores')
+  }
+})
+
+onMounted(async () => {
   if (!currentUser.value) {
     router.push('/login')
+  }
+
+  if (!currentGame.value) {
+    if (!currentUser.value) {
+      return
+    }
+
+    const newGame = await createGame(currentUser.value as User)
+    gameStore.startGame(newGame)
+    console.log(gameStore.currentGame)
   }
 })
 </script>
 
 <template>
-  <page-layout> </page-layout>
+  <page-layout>
+    <div>
+      <h4 class="text-align-center">
+        <strong>Score: {{ currentGame?.score ?? 'No game' }}</strong>
+        <br />
+        <strong>Moves used: {{ currentGame?.movesUsed ?? 'No game' }}</strong>
+      </h4>
+      <div v-if="currentGame">
+        <div class="row" v-for="(row, rowIndex) in currentGame.board.board">
+          <div
+            v-for="(cell, cellIndex) in row"
+            onclick="handleCellClick(rowIndex, cellIndex)"
+            :aria-disabled="inputDisabled"
+            :class="isMoving(targetPiece, selectedCell, rowIndex, cellIndex)"
+            :style="{
+              fontWeight:
+                selectedCell?.row === rowIndex && selectedCell?.col === cellIndex
+                  ? 'bold'
+                  : 'normal'
+            }"
+          >
+            <div>{{ cell }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </page-layout>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.text-align-center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
