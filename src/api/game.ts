@@ -23,13 +23,14 @@ export async function updateGame(game: Game, user: User): Promise<Game> {
   const baseUrl = 'http://localhost:9090'
   const endpoint = `${baseUrl}/games/${game.id}?token=${user.token}`
 
-  const response = await fetch(endpoint, {
+  await fetch(endpoint, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(game)
   })
+  console.log(`Game ${game.id} updated`)
 
   return game
 }

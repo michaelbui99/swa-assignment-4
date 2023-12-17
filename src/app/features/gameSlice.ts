@@ -26,8 +26,8 @@ export const useGameStore = defineStore('gameStore', () => {
         if (event.match && event.match.positions) {
           multiplier = event.match.positions.length
         }
-
-        currentGame.value!.score = baseScore * multiplier
+        const scoreIncrease = baseScore * multiplier
+        currentGame.value!.score += scoreIncrease
       }
     })
   }
