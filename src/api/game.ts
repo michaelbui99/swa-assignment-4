@@ -1,6 +1,6 @@
 import type { Game } from '@/app/models/game'
 import type { User } from '@/app/models/user'
-import { create } from '@/game/board'
+import { Board } from '@/game/board'
 import { RandomGenerator } from '@/game/random-generator'
 
 export async function createGame(user: User): Promise<Game> {
@@ -15,7 +15,7 @@ export async function createGame(user: User): Promise<Game> {
   return {
     ...newGame,
     movesUsed: 0,
-    board: create(new RandomGenerator(), 5, 5)
+    board: new Board(new RandomGenerator(), 5, 5)
   }
 }
 
