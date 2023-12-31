@@ -27,15 +27,19 @@ const handlePasswordChange = (e: any) => {
   passwordInput.value = e.currentTarget?.value
 }
 
-const handleSignUp = async () => {
+const signUpNewUser = async () => {
   const newUser = await createUser(userNameInput.value, passwordInput.value)
-  if (newUser) {
-    router.push('/login')
-  }
+  userStore.loginUser(newUser)
 }
 
 onMounted(() => {
   if (currentUser) {
+    router.push('/login')
+  }
+})
+
+userStore.$subscribe((_, state) => {
+  if (state.currentUser) {
     router.push('/login')
   }
 })
@@ -85,7 +89,7 @@ onMounted(() => {
             >Password must have a length of at least 8!</small
           >
         </div>
-        <button @click="handleSignUp()" class="btn btn-primary signup-btn">Sign up</button>
+        <button @click="signUpNewUser()" class="btn btn-primary signup-btn">Sign up</button>
       </div>
     </div>
   </page-layout>
