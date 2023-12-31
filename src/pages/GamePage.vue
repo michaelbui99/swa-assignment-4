@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { inject } from 'vue'
 import { useUserStore } from '@/app/features/userStore'
 import { useGameStore } from '@/app/features/gameSlice'
 import { onMounted, ref } from 'vue'
