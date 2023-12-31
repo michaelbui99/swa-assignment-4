@@ -29,7 +29,7 @@ const targetPiece = ref<{
   col: number
 } | null>(null)
 
-const handleCellClick = async (row: number, col: number) => {
+const selectPiece = async (row: number, col: number) => {
   if (!currentGame.value) {
     return
   }
@@ -121,7 +121,7 @@ onMounted(async () => {
         <div class="row" v-for="(row, rowIndex) in currentGame.board.board" :key="rowIndex">
           <div
             v-for="(cell, cellIndex) in row"
-            @click="handleCellClick(rowIndex, cellIndex)"
+            @click="selectPiece(rowIndex, cellIndex)"
             :aria-disabled="inputDisabled"
             :class="isMoving(targetPiece, selectedCell, rowIndex, cellIndex)"
             :style="{
