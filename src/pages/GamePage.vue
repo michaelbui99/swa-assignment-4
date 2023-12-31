@@ -110,7 +110,7 @@ onMounted(async () => {
 
 <template>
   <page-layout>
-    <div>
+    <div v-if="currentGame">
       <h4 class="text-align-center">
         <strong>Score: {{ currentGame?.score ?? 'No game' }}</strong>
         <br />
@@ -141,6 +141,9 @@ onMounted(async () => {
           </div>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <h4>No game in progress</h4>
     </div>
   </page-layout>
 </template>

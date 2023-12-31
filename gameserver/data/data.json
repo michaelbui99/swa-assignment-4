@@ -1071,6 +1071,12 @@
       "id": 37,
       "score": 0,
       "completed": false
+    },
+    {
+      "user": 14,
+      "id": 38,
+      "score": 0,
+      "completed": false
     }
   ]
 }
