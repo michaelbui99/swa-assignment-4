@@ -81,6 +81,12 @@
       "password": "TESTHEST123",
       "id": 12,
       "admin": false
+    },
+    {
+      "username": "mytestuser1",
+      "password": "test123123",
+      "id": 13,
+      "admin": false
     }
   ],
   "games": [

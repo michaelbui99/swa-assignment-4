@@ -47,8 +47,15 @@ onMounted(() => {
       <div class="signup-layout">
         <div class="form-group">
           <label for="usernameInput">Username</label>
-          <input
+          <!-- <input
             @change="handleUsernameChange($event)"
+            type="text"
+            class="form-control"
+            id="usernameInput"
+            placeholder="Enter username"
+          /> -->
+          <input
+            v-model="userNameInput"
             type="text"
             class="form-control"
             id="usernameInput"
@@ -60,8 +67,15 @@ onMounted(() => {
         </div>
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input
+          <!-- <input
             @change="handlePasswordChange($event)"
+            type="password"
+            class="form-control"
+            id="passwordInput"
+            placeholder="Password"
+          /> -->
+          <input
+            v-model="passwordInput"
             type="password"
             class="form-control"
             id="passwordInput"

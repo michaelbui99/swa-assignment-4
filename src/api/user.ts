@@ -64,6 +64,11 @@ export async function loginUser(loginDTO: LoginRequestDTO): Promise<User | undef
       'Content-Type': 'application/json'
     }
   })
+
+  if (loginResponse.status === 403) {
+    return undefined
+  }
+
   const loginData: LoginResponseDTO = await loginResponse.json()
 
   const user: User | undefined = await getUserById(loginData.userId, loginData.token)
