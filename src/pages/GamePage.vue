@@ -75,11 +75,6 @@ const isMoving = (targetPiece: any, selectedCell: any, rowIndex: number, cellInd
 userStore.$subscribe(async (_, state) => {
   if (!state.currentUser) {
     router.push('/login')
-  } else {
-    if (!currentGame.value) {
-      const newGame = await createGame(currentUser.value as User)
-      gameStore.startGame(newGame)
-    }
   }
 })
 
@@ -89,6 +84,10 @@ gameStore.$subscribe(async (_, state) => {
     await updateGame(state.currentGame as Game, currentUser.value as User)
     gameStore.disposeGame()
     router.push('/scores')
+  }
+  if (!state.currentGame) {
+    const newGame = await createGame(currentUser.value as User)
+    gameStore.startGame(newGame)
   }
 })
 
