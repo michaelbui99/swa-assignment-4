@@ -37,6 +37,10 @@ export const useGameStore = defineStore('gameStore', () => {
       return
     }
 
+    if (!currentGame.value.board.canMove(move.from, move.to)) {
+      return
+    }
+
     currentGame.value.board.move(move.from, move.to)
     currentGame.value.movesUsed += 1
   }

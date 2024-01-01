@@ -35,13 +35,9 @@ const selectPiece = async (row: number, col: number) => {
   }
 
   if (selectedCell.value) {
-    if (currentGame.value.board.canMove(selectedCell.value, { row, col })) {
-      gameStore.makeMove({ from: selectedCell.value, to: { row, col } })
-      await updateGame(currentGame.value as Game, currentUser.value as User)
-      selectedCell.value = null
-    } else {
-      selectedCell.value = null
-    }
+    gameStore.makeMove({ from: selectedCell.value, to: { row, col } })
+    await updateGame(currentGame.value as Game, currentUser.value as User)
+    selectedCell.value = null
   } else {
     selectedCell.value = { row, col }
   }
